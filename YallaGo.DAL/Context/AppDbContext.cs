@@ -23,6 +23,10 @@ namespace YallaGo.DAL
             modelBuilder.Entity<OfferTour>()
                 .HasKey(ot => new { ot.TourId, ot.OfferId });
 
+            modelBuilder.Entity<User>()
+                .Property(u => u.ImageURL)
+                .HasDefaultValue("defaultUserImage.png");
+
             base.OnModelCreating(modelBuilder);
         }
 

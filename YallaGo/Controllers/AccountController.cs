@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using YallaGo.DAL.Models;
+using YallaGo.UI.Helpers;
 
 namespace YallaGo.UI.Controllers
 {
@@ -11,11 +12,13 @@ namespace YallaGo.UI.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -133,5 +136,74 @@ namespace YallaGo.UI.Controllers
             }
             return Json(true);
         }
+        [HttpGet]
+        public IActionResult Manage()
+        {
+            // Get the current user
+            var user = _userManager.GetUserAsync(User).Result;
+            var model = new UserProfileViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                ImageFileName = user.ImageURL,
+            };
+          
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Manage(UserProfileViewModel model)
+        {
+            if (ModelState.IsValid) 
+            {
+                var user = _userManager.GetUserAsync(User).Result;
+                // Update user properties
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.UserName = model.UserName;
+                user.PhoneNumber = model.PhoneNumber;
+
+                var userWithSameEmail = await _userManager.FindByEmailAsync(model.Email);
+                if (userWithSameEmail != null && userWithSameEmail.Id != user.Id)
+                {
+                    ModelState.AddModelError("Email", "This email is already in use.");
+                    return View(model);
+                }
+                else
+                {
+                    user.Email = model.Email;
+                }
+                if(model.ImageFile != null)
+                {
+                    
+                    user.ImageURL = ImageHelper.SaveImage(model.ImageFile,"usersImages", _webHostEnvironment);
+                    model.ImageFileName = user.ImageURL;
+                }
+                // Save changes to the database
+                var result = _userManager.UpdateAsync(user).Result;
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "Profile updated successfully.";
+                    return RedirectToAction("Manage");
+                }
+
+            }
+
+
+            return View(model);
+        }
+
+
     }
 }

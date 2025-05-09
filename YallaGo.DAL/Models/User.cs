@@ -8,7 +8,7 @@ namespace YallaGo.DAL.Models
 
         public string LastName { get; set; }
 
-        public string? ImageURL { get; set; }
+        public string? ImageURL { get; set; } = "defaultUserImage.png";
 
         // Navigation Properties
         public ICollection<Booking> Bookings { get; set; }
