@@ -19,6 +19,7 @@ namespace YallaGo
             builder.Services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 8;
 
             })
               .AddEntityFrameworkStores<AppDbContext>()
@@ -37,8 +38,9 @@ namespace YallaGo
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();

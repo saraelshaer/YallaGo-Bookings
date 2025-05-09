@@ -39,13 +39,15 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+
+            <div class="small-text">
+                <p >Already have an account? <a asp-action="Login">Log In</a></p>
+            </div>
         </form>
     </div>
 </div>
 
-@* <div> *@
-@*     <a asp-action="Index">Back to List</a> *@
-@* </div> *@
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

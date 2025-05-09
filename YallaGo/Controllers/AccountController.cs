@@ -1,7 +1,8 @@
-﻿using MedPoint.UI.ViewModels;
+﻿using YallaGo.UI.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 using YallaGo.DAL.Models;
 
 namespace YallaGo.UI.Controllers
@@ -60,27 +61,77 @@ namespace YallaGo.UI.Controllers
             }
             return View(registerUserVM);
         }
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
-        public IActionResult Login(LoginUserViewModel loginUserVM)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginUserViewModel loginUserVM)
         {
             if(ModelState.IsValid)
             {
-                // Login logic here
-                // For example, sign in the user and redirect to a success page
-                // Redirect to a success page or home page
+                // check in db
+                var user = await _userManager.FindByEmailAsync(loginUserVM.Email);
+                if (user != null)
+                {
+                    var found = await _userManager.CheckPasswordAsync(user, loginUserVM.Password);
+                    if (found)
+                    {
+                        // create cookie
+                        await _signInManager.SignInAsync(user, loginUserVM.RememberMe);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    
+                }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(loginUserVM);
+                
             }
             return View(loginUserVM);
         }
 
         public async Task<IActionResult> Logout()
         {
-            // Logout logic here
-            // For example, sign out the user and redirect to a login page
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
+        }
+
+
+        public async Task<JsonResult> CheckEmail(string Email)
+        {
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user != null)
+            {
+                return Json($"Email {Email} is already in use.");
+            }
+            return Json(true);
+        }
+
+        public JsonResult CheckPassword(string Password)
+        {
+            if (Password.Length < 8)
+            {
+                return Json("Password must be at least 8 characters long.");
+            }
+            else if (!Regex.IsMatch(Password, @"[A-Z]"))
+            {
+                return Json("Password must contain at least one uppercase letter.");
+            }
+            else if (!Regex.IsMatch(Password, @"[a-z]"))
+            {
+                return Json("Password must contain at least one lowercase letter.");
+            }
+            else if (!Regex.IsMatch(Password, @"[0-9]"))
+            {
+                return Json("Password must contain at least one digit.");
+            }
+            else if (!Regex.IsMatch(Password, @"[_!@#$%?]"))
+            {
+                return Json("Password must contain at least one special character ( _ ,!, @, #, $, %, ?).");
+            }
+            return Json(true);
         }
     }
 }

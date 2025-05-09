@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MedPoint.UI.ViewModels
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+namespace YallaGo.UI.ViewModels
 {
     public class RegisterUserViewModel
     {
@@ -14,12 +14,12 @@ namespace MedPoint.UI.ViewModels
 
         [Required]
         [EmailAddress]
+        [Remote(action: "CheckEmail" ,controller: "Account")]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
-        [RegularExpression("^(?=.*[A-Z])(?=.*\\d).+$", ErrorMessage = "Password must contain at least one uppercase letter and one number.")]
+        [Remote(action: "CheckPassword", controller: "Account")]
         public string Password { get; set; }
 
         [Required]
