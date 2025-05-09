@@ -1,6 +1,8 @@
 using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YallaGo.DAL;
+using YallaGo.DAL.Models;
 
 namespace YallaGo
 {
@@ -13,6 +15,14 @@ namespace YallaGo
             // Add services to the container.
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+
+            })
+              .AddEntityFrameworkStores<AppDbContext>()
+              .AddDefaultTokenProviders();
 
             builder.Services.AddControllersWithViews();
 
