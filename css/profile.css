@@ -1,0 +1,145 @@
+.home{
+    background-image: url(../images/home.jpg);
+    height: 100vh;
+    background-size: cover;
+    background-position: center center;
+}
+/*========================navbar  is calling, answer with YallaGo==================================*/
+.navbar {
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  backdrop-filter: blur(5px); 
+}
+.home-layer{
+    background-color: rgb(0,0,0,0.2);
+}
+.caption-text {
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+}
+.home-caption p::after{
+  content: '';
+  animation: typing 1.5s forwards;
+}
+@keyframes typing{
+10%{content: ' is';}
+15%{content: ' is ca';}
+20%{content: ' is call';}
+30%{content: ' is calling';}
+40%{content: ' is calling,';}
+50%{content: ' is calling, ans';}
+60%{content: ' is calling, answer';}
+70%{content: ' is calling, answer wi';}
+80%{content: ' is calling, answer with';}
+90%{content: ' is calling, answer with Yall';}
+100%{content:' is calling, answer with YallGo';}
+}
+/*========================signup==================================*/
+.signup {
+  background: #667db6;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);  
+background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); 
+
+}
+.signup .container {
+box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+overflow: hidden;
+}
+
+/*========================signin==================================*/
+
+.signin {
+background: #667db6;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+min-height: 100vh;
+}
+
+.signin-box {
+background: rgba(72, 126, 176, 0.8);
+box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+transform: translateY(0);
+transition: all 0.4s ease;
+animation: fadeIn 1s ease forwards;
+}
+
+.signin-box:hover {
+transform: translateY(-10px);
+box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.signin .form-control {
+background: rgba(255, 255, 255, 0.9);
+border: none;
+border-radius: 10px;
+padding: 0.8rem 1.2rem;
+margin-bottom: 1.5rem !important;
+transition: all 0.3s ease;
+}
+.signin  .form-control:focus {
+background: white;
+box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+transform: scale(1.02);
+}
+.btn-signin {
+  background: white;
+  color: #0082c8;
+  border: none;
+  border-radius: 50px;
+  padding: 0.6rem 2.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-signin:hover {
+  background: #0082c8;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+
+.signin-title {
+color: white;
+margin-bottom: 2.5rem;
+font-weight: 700;
+letter-spacing: 1px;
+text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.signup-link {
+margin-top: 1.5rem;
+color: rgba(255, 255, 255, 0.8);
+font-size: 0.9rem;
+}
+
+.signin .signup-link a {
+color: white;
+text-decoration: none;
+font-weight: 600;
+transition: all 0.3s ease;
+}
+
+.signin  .signup-link a:hover {
+text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatEffect {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-8px); }
+100% { transform: translateY(0px); }
+}
+
+.floating {
+animation: floatEffect 6s ease-in-out infinite;
+}
