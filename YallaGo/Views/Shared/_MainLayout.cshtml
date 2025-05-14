@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"] - YallaGo</title>
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/profile.css">
+
+</head>
+<body>
+    
+        <div class="home-layer h-100 ">
+            <nav class="navbar navbar-expand-lg ">
+                <div class="container w-75 ">
+                    <a class="navbar-brand  p-0" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/yallago-logo.svg" alt="yallago-logo">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-heart text-primary  fs-5 pe-3"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user fs-5"></i>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            @if(User.Identity.IsAuthenticated)
+                            {
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Manage">Profile</a></li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log Out</a></li>
+                            }
+                            else
+                            {
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Sign In</a></li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Sign Up</a></li>
+                            }
+
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </nav>
+
+
+                @RenderBody()
+
+
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
