@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YallaGo.DAL;
 using YallaGo.DAL.Models;
+using YallaGo.DAL.Repositories;
 
 namespace YallaGo
 {
@@ -26,6 +27,8 @@ namespace YallaGo
               .AddDefaultTokenProviders();
 
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             var app = builder.Build();
 
