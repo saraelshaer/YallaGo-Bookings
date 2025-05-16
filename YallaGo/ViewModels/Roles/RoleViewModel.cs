@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace YallaGo.UI.ViewModels
+namespace YallaGo.UI.ViewModels.Roles
 {
     public class RoleViewModel
     {

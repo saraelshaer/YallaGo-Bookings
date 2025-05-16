@@ -1,9 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box !important;
-}
-.home{
+
+.home {
     background-image: url(../images/home.jpg);
     height: 100vh;
     background-size: cover;
@@ -11,147 +7,367 @@
 }
 /*========================navbar  is calling, answer with YallaGo==================================*/
 .navbar {
-  background-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  backdrop-filter: blur(5px); 
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
 }
-.home-layer{
+
+.home-layer {
     background-color: rgb(0,0,0,0.2);
 }
+
 .caption-text {
-  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
 }
-.home-caption p::after{
-  content: '';
-  animation: typing 1.5s forwards;
+
+.home-caption p::after {
+    content: '';
+    animation: typing 1.5s forwards;
 }
-@keyframes typing{
-10%{content: ' is';}
-15%{content: ' is ca';}
-20%{content: ' is call';}
-30%{content: ' is calling';}
-40%{content: ' is calling,';}
-50%{content: ' is calling, ans';}
-60%{content: ' is calling, answer';}
-70%{content: ' is calling, answer wi';}
-80%{content: ' is calling, answer with';}
-90%{content: ' is calling, answer with Yall';}
-100%{content:' is calling, answer with YallGo';}
+
+@keyframes typing {
+    10% {
+        content: ' is';
+    }
+
+    15% {
+        content: ' is ca';
+    }
+
+    20% {
+        content: ' is call';
+    }
+
+    30% {
+        content: ' is calling';
+    }
+
+    40% {
+        content: ' is calling,';
+    }
+
+    50% {
+        content: ' is calling, ans';
+    }
+
+    60% {
+        content: ' is calling, answer';
+    }
+
+    70% {
+        content: ' is calling, answer wi';
+    }
+
+    80% {
+        content: ' is calling, answer with';
+    }
+
+    90% {
+        content: ' is calling, answer with Yall';
+    }
+
+    100% {
+        content: ' is calling, answer with YallGo';
+    }
 }
 /*========================signup==================================*/
 .signup {
-    background: #667db6;  fallback for old browsers 
+    background: #667db6; /*fallback for old browsers */
     background: -webkit-linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);
     background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);
     height: 100vh;
 }
-.signup .container {
-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-overflow: hidden;
-}
 
-<<<<<<< HEAD
-=======
+    .signup .container {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
 
-
-
-
->>>>>>> authentication
 /*========================signin==================================*/
 
 .signin {
-background: #667db6;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-min-height: 100vh;
+    background: #667db6; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    min-height: 100vh;
 }
 
 .signin-box {
-background: rgba(72, 126, 176, 0.8);
-box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-backdrop-filter: blur(5px);
-border: 1px solid rgba(255, 255, 255, 0.2);
-transform: translateY(0);
-transition: all 0.4s ease;
-animation: fadeIn 1s ease forwards;
+    background: rgba(72, 126, 176, 0.8);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(0);
+    transition: all 0.4s ease;
+    animation: fadeIn 1s ease forwards;
 }
 
-.signin-box:hover {
-transform: translateY(-10px);
-box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
+    .signin-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
 
 .signin .form-control {
-background: rgba(255, 255, 255, 0.9);
-border: none;
-border-radius: 10px;
-padding: 0.8rem 1.2rem;
-margin-bottom: 1.5rem !important;
-transition: all 0.3s ease;
-}
-.signin  .form-control:focus {
-background: white;
-box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-transform: scale(1.02);
-}
-.btn-signin {
-  background: white;
-  color: #0082c8;
-  border: none;
-  border-radius: 50px;
-  padding: 0.6rem 2.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
-  display: inline-block;
-  text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 1.5rem !important;
+    transition: all 0.3s ease;
 }
 
-.btn-signin:hover {
-  background: #0082c8;
-  color: white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  transform: translateY(-3px);
-  text-decoration: none;
+    .signin .form-control:focus {
+        background: white;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        transform: scale(1.02);
+    }
+
+.btn-signin {
+    background: white;
+    color: #0082c8;
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 2.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    display: inline-block;
+    text-align: center;
 }
+
+    .btn-signin:hover {
+        background: #0082c8;
+        color: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transform: translateY(-3px);
+        text-decoration: none;
+    }
 
 
 .signin-title {
-color: white;
-margin-bottom: 2.5rem;
-font-weight: 700;
-letter-spacing: 1px;
-text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .signup-link {
-margin-top: 1.5rem;
-color: rgba(255, 255, 255, 0.8);
-font-size: 0.9rem;
+    margin-top: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
 }
 
 .signin .signup-link a {
-color: white;
-text-decoration: none;
-font-weight: 600;
-transition: all 0.3s ease;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-.signin  .signup-link a:hover {
-text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-}
+    .signin .signup-link a:hover {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
 
 @keyframes fadeIn {
-from { opacity: 0; transform: translateY(20px); }
-to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes floatEffect {
-0% { transform: translateY(0px); }
-50% { transform: translateY(-8px); }
-100% { transform: translateY(0px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .floating {
-animation: floatEffect 6s ease-in-out infinite;
+    animation: floatEffect 6s ease-in-out infinite;
 }
+
+/*===================================About==================================*/
+
+/*===================================Destination Cards==================================*/
+
+/* Main Title */
+.main-title {
+    padding-block: 50px;
+    color: #163152;
+    font-weight: 700;
+}
+
+/* Destination Cards */
+.destination-card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .destination-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .destination-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+
+.destination-name {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+/* Activities Modal */
+.activities-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.activities-content {
+    background-color: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    position: relative;
+}
+
+/* Trigger for showing modal on image click */
+.activities-trigger {
+    display: none;
+}
+
+    .activities-trigger:checked + .activities-modal {
+        display: block;
+    }
+
+/* Close Modal Button */
+.close-modal {
+    font-size: 24px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #163152;
+}
+
+.modal-title {
+    color: #163152;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Activity Cards */
+.activity-card {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+    .activity-card:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+.activity-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.activity-details {
+    flex: 1;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 24px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+    .favorite-btn:hover {
+        color: #163152;
+    }
+
+.rating {
+    color: #ffc107;
+}
+
+/* Book Now Button */
+.book-now-btn {
+    background-color: #163152;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .book-now-btn:hover {
+        background-color: #0d1f32;
+    }
+
+
+/* Footer */
+.footer {
+    background-color: #163152;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+    .footer a {
+        color: #ffc107;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .footer a:hover {
+            color: #e0a800;
+        }

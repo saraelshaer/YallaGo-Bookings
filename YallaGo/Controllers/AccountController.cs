@@ -1,10 +1,10 @@
-﻿using YallaGo.UI.ViewModels;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using YallaGo.DAL.Models;
 using YallaGo.UI.Helpers;
+using YallaGo.UI.ViewModels.Account;
 
 namespace YallaGo.UI.Controllers
 {
@@ -33,9 +33,6 @@ namespace YallaGo.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Registration logic here
-                // For example, create a new user and save to the database
-                // Redirect to a success page or login page
                 User user = new User
                 {
                     FirstName = registerUserVM.FirstName,
@@ -47,7 +44,7 @@ namespace YallaGo.UI.Controllers
                 IdentityResult result = await _userManager.CreateAsync(user, registerUserVM.Password);
                 if (result.Succeeded)
                 {
-                    // Optionally, you can sign in the user after registration
+                    
                     await _userManager.AddToRoleAsync(user, "User");
                     // Sign in the user (create cookie)
                     await _signInManager.SignInAsync(user, isPersistent: false); // ID, Name, Roles in cookie 
@@ -136,11 +133,12 @@ namespace YallaGo.UI.Controllers
             }
             return Json(true);
         }
+
         [HttpGet]
-        public IActionResult Manage()
+        public async Task<IActionResult> Manage()
         {
-            // Get the current user
-            var user = _userManager.GetUserAsync(User).Result;
+            
+            var user = await _userManager.GetUserAsync(User);
             var model = new UserProfileViewModel
             {
                 FirstName = user.FirstName,
@@ -154,6 +152,7 @@ namespace YallaGo.UI.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Manage(UserProfileViewModel model)

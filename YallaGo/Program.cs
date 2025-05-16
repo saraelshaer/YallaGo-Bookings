@@ -1,6 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using YallaGo.BLL.Interfaces;
+using YallaGo.BLL.Services;
 using YallaGo.DAL;
 using YallaGo.DAL.Models;
 using YallaGo.DAL.Repositories;
@@ -29,7 +31,7 @@ namespace YallaGo
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            builder.Services.AddScoped<IDestinationService, DestinationService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

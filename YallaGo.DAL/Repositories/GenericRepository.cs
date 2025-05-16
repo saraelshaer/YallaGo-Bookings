@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using YallaGo.DAL.Consts;
 
 namespace YallaGo.DAL.Repositories
 {
@@ -14,7 +15,34 @@ namespace YallaGo.DAL.Repositories
             _dbSet = _context.Set<T>();
         }
 
-       
+        public async Task<IEnumerable<T>> GetAllAsync(
+         Expression<Func<T, bool>> criteria = null,
+         string[] includes = null,
+         Expression<Func<T, object>> orderBy = null,
+         OrderByDirection orderByDirection = OrderByDirection.Ascending,
+         int pageNumber = 1,
+         int pageSize = 10)
+        {
+            IQueryable<T> query = _dbSet;
+            if (criteria != null)
+                query = query.Where(criteria);
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            if (orderBy != null)
+            {
+                query = (orderByDirection == OrderByDirection.Ascending)
+                    ? query.OrderBy(orderBy)
+                    : query.OrderByDescending(orderBy);
+            }
+
+            return await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
 
         public async Task<T> GetByIdAsync(int id)
         {

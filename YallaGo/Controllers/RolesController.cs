@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using YallaGo.UI.ViewModels;
+using YallaGo.UI.ViewModels.Roles;
 
 namespace YallaGo.UI.Controllers
 {
