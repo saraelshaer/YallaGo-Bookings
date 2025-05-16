@@ -21,25 +21,25 @@ namespace YallaGo.BLL.Services
                 Country = destinationDto.Country
             };
 
-            await _unitOfWork.DestinationsRepo.AddAsync(destination);
+            await _unitOfWork.DestinationRepo.AddAsync(destination);
             await _unitOfWork.CompleteAsync();
         }
 
         public async Task<bool> DeleteDestinationAsync(int id)
         {
-            var destination = await _unitOfWork.DestinationsRepo.GetByIdAsync(id);
+            var destination = await _unitOfWork.DestinationRepo.GetByIdAsync(id);
             if (destination == null)
             {
                 return false;
             }
-            _unitOfWork.DestinationsRepo.HardDelete(destination);
+            _unitOfWork.DestinationRepo.HardDelete(destination);
             await _unitOfWork.CompleteAsync();
             return true;
         }
 
         public async Task<IEnumerable<ReadDestinationDto>> GetAllDestinationsAsync()
         {
-            var destinations = await _unitOfWork.DestinationsRepo.GetAllAsync();
+            var destinations = await _unitOfWork.DestinationRepo.GetAllAsync();
             return destinations.Select(d => new ReadDestinationDto
             {
                 Id = d.Id,
@@ -51,7 +51,7 @@ namespace YallaGo.BLL.Services
 
         public async Task<ReadDestinationDto> GetDestinationByIdAsync(int id)
         {
-            var destination = await _unitOfWork.DestinationsRepo.GetByIdAsync(id);
+            var destination = await _unitOfWork.DestinationRepo.GetByIdAsync(id);
             if (destination == null)
             {
                 return null;
@@ -68,7 +68,7 @@ namespace YallaGo.BLL.Services
 
         public async Task<ReadDestinationDto> UpdateDestinationAsync(int id, DestinationDto destinationDto)
         {
-            var destination = await _unitOfWork.DestinationsRepo.GetByIdAsync(id);
+            var destination = await _unitOfWork.DestinationRepo.GetByIdAsync(id);
             if (destination == null)
             {
                 return null;

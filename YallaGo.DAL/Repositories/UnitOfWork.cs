@@ -8,8 +8,8 @@ namespace YallaGo.DAL.Repositories
 
         public IGenericRepository<User> UsersRepo { get; }
         public IGenericRepository<Booking> BookingRepo { get; }
-        public IGenericRepository<Destination> DestinationsRepo { get; }
-        public IGenericRepository<Tour> ToursRepo { get; }
+        public IGenericRepository<Destination> DestinationRepo { get; }
+        public IGenericRepository<Tour> TourRepo { get; }
 
 
         public UnitOfWork(AppDbContext context)
@@ -18,8 +18,8 @@ namespace YallaGo.DAL.Repositories
 
             UsersRepo = new GenericRepository<User>(_context);
             BookingRepo = new GenericRepository<Booking>(_context);
-            DestinationsRepo = new GenericRepository<Destination>(_context);
-            ToursRepo = new GenericRepository<Tour>(_context);
+            DestinationRepo = new GenericRepository<Destination>(_context);
+            TourRepo = new GenericRepository<Tour>(_context);
 
         }
 

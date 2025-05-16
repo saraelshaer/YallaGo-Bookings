@@ -22,6 +22,12 @@ namespace YallaGo.UI.Controllers
             return View(destinations);
         }
 
+        public async Task<IActionResult> AdminIndex()
+        {
+            var destinations = await _destinationService.GetAllDestinationsAsync();
+            return View(destinations);
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             var destination = await _destinationService.GetDestinationByIdAsync(id);
@@ -106,6 +112,16 @@ namespace YallaGo.UI.Controllers
                 return RedirectToAction("Index");
             }
             return View(destinationVM);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var isDeleted = await _destinationService.DeleteDestinationAsync(id);
+            if (!isDeleted)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("AdminIndex");
         }
     }
 }

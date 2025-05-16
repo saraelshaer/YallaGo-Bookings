@@ -9,13 +9,13 @@ namespace YallaGo.BLL.Interfaces
 {
     public interface ITourService
     {
-        Task<IEnumerable<TourDto>> GetAllToursAsync();
-        Task<TourDto> GetTourByIdAsync(int id);
-        Task<TourDto> CreateTourAsync(TourDto tourDto);
-        Task<TourDto> UpdateTourAsync(int id, TourDto tourDto);
+        Task<IEnumerable<ReadTourDto>> GetAllToursAsync();
+        Task<ReadTourDto> GetTourByIdAsync(int id);
+        Task<ReadTourDto> CreateTourAsync(TourDto tourDto);
+        Task<ReadTourDto> UpdateTourAsync(int id, TourDto tourDto);
         Task<bool> DeleteTourAsync(int id);
-        Task<List<TourDto>> GetToursByDestinationIdAsync(int destinationId);
-        Task<List<TourDto>> GetToursByPriceRangeAsync(decimal minPrice, decimal maxPrice);
-        Task<List<TourDto>> SearchToursAsync(string searchTerm);
+        Task<IEnumerable<ReadTourDto>> GetToursByDestinationIdAsync(int destinationId);
+        Task<IEnumerable<ReadTourDto>> GetToursByPriceRangeAsync(decimal minPrice, decimal maxPrice);
+        Task<IEnumerable<ReadTourDto>> SearchToursAsync(string searchTerm);
     }
 }
