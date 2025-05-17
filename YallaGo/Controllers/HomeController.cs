@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,15 @@ namespace YallaGo.Controllers
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult Dashboard()
+        {
+            //ViewBag.NoOfCustomers = _unitOfWork.UserRepository.Count(u => u.UserRoles.Any(r => r.Role.Name.ToLower() != "admin") && u.IsActive);
+            //ViewBag.NoOfOrders = _unitOfWork.OrderRepo.Count(o => o.User.IsActive);
+            //ViewBag.TotalSales = _unitOfWork.OrderRepo.Sum(o => o.TotalAmount, o => o.PaymentStatus == Enums.PaymentStatus.Completed);
+            //ViewBag.PendingOrders = _unitOfWork.OrderRepo.Count(o => o.OrderStatus == Enums.OrderStatus.Pending && o.User.IsActive);
             return View();
         }
 

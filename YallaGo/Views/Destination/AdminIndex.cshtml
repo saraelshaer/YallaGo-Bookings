@@ -2,58 +2,69 @@
 
 @{
     ViewData["Title"] = "AdminIndex";
+    Layout = "_AdminLayout";
 }
-
-<h1>AdminIndex</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-dark my-3">+ Create New</a>
 </p>
-<table class="table">
-    <thead>
+
+
+<table class="table table-bordered table-hover text-center align-middle table-striped shadow-sm">
+    <thead style=" background-color: #163152 ;color: white;">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th></th>
+            <th>Id</th>
+            <th>Name</th>
+            
+            <th>Image</th>
+            <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+    <tbody id="tourTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                
+                <td>
+                    <img src="~/images/Destinations/@item.ImageUrl" width="100" height="80" class="img-thumbnail" />
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm">Details</a>
+                        <a href="javascript:void(0)" onclick="confirmDelete('@item.Id', '@Url.Action("Delete", new { id = item.Id })')" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+@section Scripts
+{
+    <script>
+        // Function to handle delete confirmation with SweetAlert
+        function confirmDelete(userId, deleteUrl) {
+            Swal.fire({
+                title: "Delete Tour",
+                text: "Are you sure about deleting this tour ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Delete it",
+                cancelButtonText: "Cancel",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, redirect to the delete action
+                    window.location.href = deleteUrl;
+                }
+            });
+        }
+    </script>
+
+
+}

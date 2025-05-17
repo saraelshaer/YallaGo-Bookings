@@ -11,6 +11,8 @@
 
         public int AvailableSeats { get; set; }
         public int DestinationId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime CreatedAt { get; set; }
         public string ImageURL { get; set; }
     }
 }

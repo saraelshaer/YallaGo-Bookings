@@ -12,6 +12,9 @@
 
         public int Duration { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+        public DateTime StartDate { get; set; }
+
         public int AvailableSeats { get; set; }
 
         public string ImageURL { get; set; }

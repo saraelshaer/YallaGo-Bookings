@@ -7,8 +7,6 @@ namespace YallaGo.UI.ViewModels.Destination
         [MaxLength(80)]
         public string Name { get; set; }
 
-        [MaxLength(500)]
-        public string Description { get; set; }
         [MaxLength(80)]
         public string Country { get; set; }
       

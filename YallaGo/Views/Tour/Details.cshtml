@@ -1,0 +1,54 @@
+﻿@model ReadTourDto
+
+@{
+    ViewData["Title"] = "Tour Details";
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Tour Details</h2>
+
+    <div class="card shadow rounded">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3 fw-bold">Tour ID</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+
+                <dt class="col-sm-3 fw-bold">Name</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3 fw-bold">Price</dt>
+                <dd class="col-sm-9">$@Model.Price</dd>
+
+                <dt class="col-sm-3 fw-bold">Description</dt>
+                <dd class="col-sm-9">@Model.Description</dd>
+
+                <dt class="col-sm-3 fw-bold">Duration</dt>
+                <dd class="col-sm-9">@Model.Duration days</dd>
+
+                <dt class="col-sm-3 fw-bold">Available Seats</dt>
+                <dd class="col-sm-9">@Model.AvailableSeats</dd>
+
+                <dt class="col-sm-3 fw-bold">Destination ID</dt>
+                <dd class="col-sm-9">@Model.DestinationId</dd>
+
+                <dt class="col-sm-3 fw-bold">Image</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrEmpty(Model.ImageURL))
+                    {
+                        <img src="~/images/tours/@Model.ImageURL" alt="Tour Image" class="img-thumbnail" style="max-height: 200px;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">No image available</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-center ">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn me-2" style="background-color: #163152 ;color: white;">Edit</a>
+        <a asp-action="AdminIndex" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

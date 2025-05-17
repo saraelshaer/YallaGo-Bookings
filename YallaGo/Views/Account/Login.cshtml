@@ -14,13 +14,13 @@
                 <div class="signin-box text-center floating rounded-5 p-5">
                     <h2 class="signin-title">Sign In</h2>
                     <form asp-action="Login">
-                        <div asp-validation-summary="ModelOnly" class="text-center"></div>
+                        <div asp-validation-summary="ModelOnly" class="text-center small"></div>
 
                         <input asp-for="Email" placeholder="Your Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
 
                         <input asp-for="Password" placeholder="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <span asp-validation-for="Password" class="text-danger small"></span>
                         <div style="text-align:left; color: white">
                             <input class="form-check-input " asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
                         </div>

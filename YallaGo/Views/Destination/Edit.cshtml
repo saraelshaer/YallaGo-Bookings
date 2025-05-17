@@ -1,48 +1,69 @@
-﻿@model YallaGo.UI.ViewModels.Destination.UpdatedestinationVM
+﻿@model UpdatedestinationVM
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Destination";
+    Layout = "_AdminLayout";
 }
 
-<h1>Edit</h1>
-
-<h4>UpdatedestinationVM</h4>
-<hr />
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        <div class="card shadow-sm rounded-4">
+            <div class="card-body text-center">
+                <h5 class="card-title mb-4">Destination Image</h5>
+                @if (@Model.ImageUrl != null)
+                {
+                    <img src="~/images/Destinations/@Model.ImageUrl" class="img-fluid rounded-3 border" alt="Destination Image" style="max-height: 450px;">
+                }
+
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header  text-white" style="background-color:#163152;">
+                <h4 class="mb-0">Edit the Destination</h4>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="card-body">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label> <span class="text-danger"> *</span>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Country" class="form-label"></label><span class="text-danger"> *</span>
+                        <input asp-for="Country" class="form-control" rows="3"></input>
+                        <span asp-validation-for="Country" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ImageFile" class="form-label"></label>
+                        <input asp-for="ImageFile" class="form-control" type="file" />
+                        <span asp-validation-for="ImageFile" class="text-danger small"></span>
+                    </div>
+
+
+                    <input type="hidden" asp-for="ImageUrl" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Edit</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div class="mt-3 text-center">
+            <a asp-action="AdminIndex" class="text-decoration-none">&larr; Back to List</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+

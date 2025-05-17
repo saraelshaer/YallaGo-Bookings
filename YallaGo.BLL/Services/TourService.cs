@@ -23,6 +23,7 @@ namespace YallaGo.BLL.Services
                 Duration = tourDto.Duration,
                 DestinationId = tourDto.DestinationId,
                 AvailableSeats = tourDto.AvailableSeats,
+                ImageURL = tourDto.ImageURL
             };
             await _unitOfWork.TourRepo.AddAsync(tour);
             await _unitOfWork.CompleteAsync();
@@ -54,7 +55,7 @@ namespace YallaGo.BLL.Services
 
         public async Task<IEnumerable<ReadTourDto>> GetAllToursAsync()
         {
-            var tours = await _unitOfWork.TourRepo.GetAllAsync();
+            var tours = await _unitOfWork.TourRepo.GetAllAsync(includes: new[] { "Destination" } , orderBy: t=> t.CreatedAt);
             var tourDtos = tours.Select(t => new ReadTourDto
             {
                 Id = t.Id,
@@ -64,7 +65,11 @@ namespace YallaGo.BLL.Services
                 Duration = t.Duration,
                 DestinationId = t.DestinationId,
                 AvailableSeats = t.AvailableSeats,
-                ImageURL = t.ImageURL
+                ImageURL = t.ImageURL,
+                DestinationName = t.Destination.Name,
+                StartDate = t.StartDate,
+                CreatedAt = t.CreatedAt
+
             }).ToList();
 
             return tourDtos;
@@ -72,7 +77,7 @@ namespace YallaGo.BLL.Services
 
         public async Task<ReadTourDto> GetTourByIdAsync(int id)
         {
-            var tour = await _unitOfWork.TourRepo.GetByIdAsync(id);
+            var tour = await _unitOfWork.TourRepo.FindAsync(t => t.Id == id, includes: new[] { "Destination" });
             if (tour == null)
             {
                 return null;
@@ -86,14 +91,18 @@ namespace YallaGo.BLL.Services
                 Duration = tour.Duration,
                 DestinationId = tour.DestinationId,
                 AvailableSeats = tour.AvailableSeats,
-                ImageURL = tour.ImageURL
+                ImageURL = tour.ImageURL,
+                DestinationName = tour.Destination.Name,
+                StartDate = tour.StartDate,
+                CreatedAt = tour.CreatedAt
+
             };
             return tourDto;
         }
 
         public async Task<IEnumerable<ReadTourDto>> GetToursByDestinationIdAsync(int destinationId)
         {
-            var tours = await _unitOfWork.TourRepo.GetAllAsync(t => t.DestinationId == destinationId);
+            var tours = await _unitOfWork.TourRepo.GetAllAsync(t => t.DestinationId == destinationId , orderBy: t => t.CreatedAt);
             var tourDtos = tours.Select(t => new ReadTourDto
             {
                 Id = t.Id,
@@ -102,8 +111,11 @@ namespace YallaGo.BLL.Services
                 Price = t.Price,
                 Duration = t.Duration,
                 DestinationId = t.DestinationId,
+                DestinationName = t.Destination.Name,
                 AvailableSeats = t.AvailableSeats,
-                ImageURL = t.ImageURL
+                ImageURL = t.ImageURL,
+                StartDate = t.StartDate,
+                CreatedAt = t.CreatedAt
             }).ToList();
 
             return tourDtos;
@@ -112,7 +124,7 @@ namespace YallaGo.BLL.Services
 
         public async Task<IEnumerable<ReadTourDto>> GetToursByPriceRangeAsync(decimal minPrice, decimal maxPrice)
         {
-            var tours = await _unitOfWork.TourRepo.GetAllAsync(t => t.Price >= minPrice && t.Price <= maxPrice);
+            var tours = await _unitOfWork.TourRepo.GetAllAsync(t => t.Price >= minPrice && t.Price <= maxPrice, orderBy: t => t.CreatedAt);
             var tourDtos = tours.Select(t => new ReadTourDto
             {
                 Id = t.Id,
@@ -122,7 +134,8 @@ namespace YallaGo.BLL.Services
                 Duration = t.Duration,
                 DestinationId = t.DestinationId,
                 AvailableSeats = t.AvailableSeats,
-                ImageURL = t.ImageURL
+                ImageURL = t.ImageURL,
+                StartDate = t.StartDate,
             }).ToList();
 
             return tourDtos;
@@ -160,6 +173,8 @@ namespace YallaGo.BLL.Services
             tour.DestinationId = tourDto.DestinationId;
             tour.AvailableSeats = tourDto.AvailableSeats;
             tour.ImageURL = tourDto.ImageURL;
+            tour.StartDate = tourDto.StartDate;
+            tour.CreatedAt = DateTime.Now;
 
             await _unitOfWork.CompleteAsync();
 

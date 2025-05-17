@@ -17,6 +17,9 @@ namespace YallaGo.DAL
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Offer> Offers { get; set; }
         public DbSet<OfferTour> OfferTours { get; set; }
+        public DbSet<WishList> wishLists { get; set; }
+        public DbSet<WishListItems> wishListItems { get; set; } 
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,7 +30,16 @@ namespace YallaGo.DAL
                 .Property(u => u.ImageURL)
                 .HasDefaultValue("defaultUserImage.png");
 
+            modelBuilder.Entity<Tour>(cfg =>
+            {
+
+                cfg.Property(t => t.CreatedAt)
+                    .HasDefaultValueSql("GETDATE()");
+            });
+
             base.OnModelCreating(modelBuilder);
+
+
         }
 
 

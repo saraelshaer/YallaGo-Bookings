@@ -53,17 +53,16 @@ namespace YallaGo.UI.Controllers
                 var destinationDto = new DestinationDto
                 {
                     Name = destinationVM.Name,
-                    Description = destinationVM.Description,
                     Country = destinationVM.Country,
                 };
                 if (destinationVM.ImageFile != null)
                 {
-                    destinationDto.ImageUrl = ImageHelper.SaveImage(destinationVM.ImageFile, "images", _webHostEnvironment);
+                    destinationDto.ImageUrl = ImageHelper.SaveImage(destinationVM.ImageFile, "images/Destinations", _webHostEnvironment);
                 }
 
                 await _destinationService.CreateDestinationAsync(destinationDto);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("AdminIndex");
 
             }
             return View(destinationVM);
@@ -80,7 +79,6 @@ namespace YallaGo.UI.Controllers
             var destinationVM = new UpdatedestinationVM
             {
                 Name = destination.Name,
-                Description = destination.Description,
                 Country = destination.Country,
                 ImageUrl = destination.ImageUrl
             };
@@ -96,20 +94,19 @@ namespace YallaGo.UI.Controllers
                 var destinationDto = new DestinationDto
                 {
                     Name = destinationVM.Name,
-                    Description = destinationVM.Description,
                     Country = destinationVM.Country,
                     ImageUrl = destinationVM.ImageUrl
                 };
                 if (destinationVM.ImageFile != null)
                 {
-                    destinationDto.ImageUrl = ImageHelper.SaveImage(destinationVM.ImageFile, "images", _webHostEnvironment);
+                    destinationDto.ImageUrl = ImageHelper.SaveImage(destinationVM.ImageFile, "images/Destinations", _webHostEnvironment);
                 }
                 var updatedDestination = await _destinationService.UpdateDestinationAsync(id, destinationDto);
                 if (updatedDestination == null)
                 {
                     return NotFound();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("AdminIndex");
             }
             return View(destinationVM);
         }

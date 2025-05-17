@@ -1,5 +1,6 @@
 ﻿using YallaGo.BLL.DTOs.DestinationDtos;
 using YallaGo.BLL.Interfaces;
+using YallaGo.DAL.Consts;
 using YallaGo.DAL.Models;
 using YallaGo.DAL.Repositories;
 namespace YallaGo.BLL.Services
@@ -39,7 +40,7 @@ namespace YallaGo.BLL.Services
 
         public async Task<IEnumerable<ReadDestinationDto>> GetAllDestinationsAsync()
         {
-            var destinations = await _unitOfWork.DestinationRepo.GetAllAsync();
+            var destinations = await _unitOfWork.DestinationRepo.GetAllAsync(orderBy: d => d.Name, orderByDirection: OrderByDirection.Ascending);
             return destinations.Select(d => new ReadDestinationDto
             {
                 Id = d.Id,
@@ -76,7 +77,6 @@ namespace YallaGo.BLL.Services
             destination.Name = destinationDto.Name;
             destination.ImagePath = destinationDto.ImageUrl;
             destination.Country = destinationDto.Country;
-
             await _unitOfWork.CompleteAsync();
             return new ReadDestinationDto
             {

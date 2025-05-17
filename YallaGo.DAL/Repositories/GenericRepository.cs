@@ -19,7 +19,7 @@ namespace YallaGo.DAL.Repositories
          Expression<Func<T, bool>> criteria = null,
          string[] includes = null,
          Expression<Func<T, object>> orderBy = null,
-         OrderByDirection orderByDirection = OrderByDirection.Ascending,
+         OrderByDirection orderByDirection = OrderByDirection.Descending,
          int pageNumber = 1,
          int pageSize = 10)
         {

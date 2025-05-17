@@ -9,6 +9,7 @@ namespace YallaGo.BLL.DTOs.TourDtos
     public class ReadTourDto: TourDto
     {
         public int Id { get; set; }
+        public string DestinationName { get; set; }
 
     }
 }

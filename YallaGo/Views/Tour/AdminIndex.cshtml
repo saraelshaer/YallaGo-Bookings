@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ReadTourDto>
+
+@{
+    ViewData["Title"] = "Tours";
+    Layout = "_AdminLayout";
+    SelectList destinations = new SelectList(ViewBag.Destinations, "Id", "Name");
+}
+
+
+
+<p>
+    <a asp-action="Create" class="btn btn-dark my-3">+ Create New</a>
+</p>
+
+
+<table class="table table-bordered table-hover text-center align-middle table-striped shadow-sm">
+    <thead style=" background-color: #163152 ;color: white;">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Duration</th>
+            <th>Available Seats</th>
+            <th>Destination Name</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="tourTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>@item.Duration</td>
+                <td>@item.AvailableSeats</td>
+                <td>@item.DestinationName</td>
+                <td>
+                    <img src="~/images/tours/@item.ImageURL" width="100" height="80" class="img-thumbnail" />
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm">Details</a>
+                        <a href="javascript:void(0)" onclick="confirmDelete('@item.Id', '@Url.Action("Delete", new { id = item.Id })')" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts
+{
+    <script>
+        // Function to handle delete confirmation with SweetAlert
+        function confirmDelete(userId, deleteUrl) {
+            Swal.fire({
+                title: "Delete Tour",
+                text: "Are you sure about deleting this tour ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Delete it",
+                cancelButtonText: "Cancel",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, redirect to the delete action
+                    window.location.href = deleteUrl;
+                }
+            });
+        }
+    </script>
+
+   
+}

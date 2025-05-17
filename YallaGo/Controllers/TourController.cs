@@ -9,11 +9,13 @@ namespace YallaGo.UI.Controllers
     public class TourController : Controller
     {
         private readonly ITourService _tourService;
+        private readonly IDestinationService _destinationService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public TourController(ITourService tourService, IWebHostEnvironment webHostEnvironment)
+        public TourController(ITourService tourService, IDestinationService destinationService, IWebHostEnvironment webHostEnvironment)
         {
             _tourService = tourService;
+            _destinationService = destinationService;
             _webHostEnvironment = webHostEnvironment;
         }
         public async Task<IActionResult> UserIndex()
@@ -24,6 +26,7 @@ namespace YallaGo.UI.Controllers
 
         public async Task<IActionResult> AdminIndex()
         {
+            ViewBag.Destinations = await _destinationService.GetAllDestinationsAsync();
             var tours = await _tourService.GetAllToursAsync();
             return View(tours);
         }
@@ -37,10 +40,28 @@ namespace YallaGo.UI.Controllers
             }
             return View(tour);
         }
+        public async Task<IActionResult> Search(string searchTerm)
+        {
+            var tours = await _tourService.SearchToursAsync(searchTerm);
+            return View("UserIndex", tours);
+        }
+
+        public async Task<IActionResult> FilterByPrice(decimal minPrice, decimal maxPrice)
+        {
+            var tours = await _tourService.GetToursByPriceRangeAsync(minPrice, maxPrice);
+            return View("UserIndex", tours);
+        }
+
+        public async Task<IActionResult> FilterByDestination(int destinationId)
+        {
+            var tours = await _tourService.GetToursByDestinationIdAsync(destinationId);
+            return Json( tours);
+        }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Destinations = await _destinationService.GetAllDestinationsAsync();
             return View();
         }
 
@@ -58,6 +79,7 @@ namespace YallaGo.UI.Controllers
                     Duration = tourVM.Duration,
                     DestinationId = tourVM.DestinationId,
                     AvailableSeats = tourVM.AvailableSeats,
+                    StartDate = tourVM.StartDate,
                 };
                 if(tourVM.ImageFile != null)
                 {
@@ -68,6 +90,8 @@ namespace YallaGo.UI.Controllers
                 var createdTour = await _tourService.CreateTourAsync(tourDto);
                 return RedirectToAction("AdminIndex");
             }
+
+            ViewBag.Destinations = await _destinationService.GetAllDestinationsAsync();
             return View(tourVM);
         }
 
@@ -87,8 +111,11 @@ namespace YallaGo.UI.Controllers
                 Duration = tour.Duration,
                 DestinationId = tour.DestinationId,
                 AvailableSeats = tour.AvailableSeats,
-                ImageURL = tour.ImageURL
+                ImageURL = tour.ImageURL,
+                StartDate = tour.StartDate,
             };
+
+            ViewBag.Destinations = await _destinationService.GetAllDestinationsAsync();
             return View(tourVM);
         }
 
@@ -106,6 +133,9 @@ namespace YallaGo.UI.Controllers
                     Duration = tourVM.Duration,
                     DestinationId = tourVM.DestinationId,
                     AvailableSeats = tourVM.AvailableSeats,
+                    ImageURL = tourVM.ImageURL,
+                    StartDate = tourVM.StartDate,
+                    CreatedAt = DateTime.Now,
                 };
                 if (tourVM.ImageFile != null)
                 {
@@ -116,6 +146,7 @@ namespace YallaGo.UI.Controllers
 
                 return RedirectToAction("AdminIndex");
             }
+            ViewBag.Destinations = await _destinationService.GetAllDestinationsAsync();
             return View(tourVM);
         }
 
