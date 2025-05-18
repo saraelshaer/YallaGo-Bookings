@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using YallaGo.BLL.Interfaces;
 using YallaGo.Models;
 
 namespace YallaGo.Controllers
@@ -10,15 +12,19 @@ namespace YallaGo.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IDestinationService _destinationService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IDestinationService destinationService)
         {
             _logger = logger;
+            _destinationService = destinationService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var destinations = await _destinationService.GetAllDestinationsAsync();
+            
+            return View(destinations);
         }
         [Authorize(Roles = "owner,Admin")]
         public IActionResult Dashboard()

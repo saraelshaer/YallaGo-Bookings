@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection.Emit;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using YallaGo.DAL.Models;
 namespace YallaGo.DAL
@@ -44,13 +42,8 @@ namespace YallaGo.DAL
             });
 
             base.OnModelCreating(modelBuilder);
-
-
         }
-
-
     }
-
 }
 
 
