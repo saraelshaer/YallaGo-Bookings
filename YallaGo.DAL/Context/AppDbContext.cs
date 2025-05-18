@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using YallaGo.DAL.Consts;
 using YallaGo.DAL.Models;
 namespace YallaGo.DAL
 {
@@ -39,6 +40,16 @@ namespace YallaGo.DAL
 
                 cfg.Property(t => t.CreatedAt)
                     .HasDefaultValueSql("GETDATE()");
+            });
+
+            modelBuilder.Entity<Booking>(cfg =>
+            {
+                cfg.Property(b => b.BookingDate)
+                    .HasDefaultValueSql("GETDATE()");
+
+                cfg.Property(b => b.Status)
+                    .HasConversion<string>()
+                    .HasDefaultValue(BookingStatus.Pending);
             });
 
             base.OnModelCreating(modelBuilder);
