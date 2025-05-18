@@ -7,6 +7,7 @@ namespace YallaGo.DAL.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+        public DateTime? JoinedAt { get; set; } = DateTime.Now;
 
         public string? ImageURL { get; set; } = "defaultUserImage.png";
 

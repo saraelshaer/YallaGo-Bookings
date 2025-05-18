@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YallaGo.BLL.DTOs.DestinationDtos;
 using YallaGo.BLL.Interfaces;
 using YallaGo.UI.Helpers;
@@ -21,7 +22,7 @@ namespace YallaGo.UI.Controllers
             var destinations = await _destinationService.GetAllDestinationsAsync();
             return View(destinations);
         }
-
+        [Authorize(Roles = "owner,Admin")]
         public async Task<IActionResult> AdminIndex()
         {
             var destinations = await _destinationService.GetAllDestinationsAsync();

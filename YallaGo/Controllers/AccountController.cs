@@ -81,6 +81,12 @@ namespace YallaGo.UI.Controllers
                     {
                         // create cookie
                         await _signInManager.SignInAsync(user, loginUserVM.RememberMe);
+
+                        if(await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "Owner"))
+                        {
+                            return RedirectToAction("Dashboard", "Home");
+                        }
+                     
                         return RedirectToAction("Index", "Home");
                     }
                     
@@ -180,7 +186,6 @@ namespace YallaGo.UI.Controllers
                 {
                     
                     user.ImageURL = ImageHelper.SaveImage(model.ImageFile,"usersImages", _webHostEnvironment);
-                    model.ImageFileName = user.ImageURL;
                 }
                 // Save changes to the database
                 var result = _userManager.UpdateAsync(user).Result;

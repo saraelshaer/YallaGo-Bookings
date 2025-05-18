@@ -20,7 +20,7 @@ namespace YallaGo.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "owner,Admin")]
         public IActionResult Dashboard()
         {
             //ViewBag.NoOfCustomers = _unitOfWork.UserRepository.Count(u => u.UserRoles.Any(r => r.Role.Name.ToLower() != "admin") && u.IsActive);

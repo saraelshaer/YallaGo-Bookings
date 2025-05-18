@@ -1,35 +1,56 @@
-﻿@model IEnumerable<ReadDestinationDto>
+﻿@model IEnumerable<User>
+@inject UserManager<User> _userManager
 
 @{
-    ViewData["Title"] = "Destinations";
+    ViewData["Title"] = "Users";
     Layout = "_AdminLayout";
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-dark my-3">+ Create New</a>
+    <a asp-action="AddNew" class="btn btn-dark my-3">+ Add New User</a>
 </p>
 
 
 <table class="table table-bordered table-hover text-center align-middle table-striped shadow-sm">
     <thead style=" background-color: #163152 ;color: white;">
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            
-            <th>Image</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Roles</th>
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody id="tourTableBody">
+    <tbody >
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.UserName</td>
                 <td>
-                    <img src="~/images/Destinations/@item.ImageUrl" width="100" height="80" class="img-thumbnail" />
-                </td>
+                    @foreach (var role in _userManager.GetRolesAsync(item).Result)
+                    {
+                        @if (role.ToLower() == "owner")
+                        {
+                            <span class="badge bg-primary text-capitalize">@role</span>
+                        }
+                        else if (role.ToLower() == "admin")
+                        {
+                            <span class="badge bg-danger text-capitalize">@role</span>
+                        }
+                        else if (role.ToLower() == "user")
+                        {
+                            <span class="badge bg-success text-capitalize">@role</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary text-capitalize">@role</span>
+                        }
+
+                    }
                 <td>
                     <div class="btn-group" role="group">
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Edit</a>
@@ -49,8 +70,8 @@
         // Function to handle delete confirmation with SweetAlert
         function confirmDelete(userId, deleteUrl) {
             Swal.fire({
-                title: "Delete Destination",
-                text: "Are you sure about deleting this Destination ?",
+                title: "Delete User",
+                text: "Are you sure about deleting this user ?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Delete it",

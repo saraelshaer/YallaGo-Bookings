@@ -21,11 +21,12 @@
         {
             <tr>
                 <td>@item.Id</td>
-                <td style="text-transform:capitalize">@item.Name</td>
+                <td class="text-capitalize">@item.Name</td>
 
                 <td>
                     <div class="btn-group" role="group">
                         <a href="javascript:void(0)" onclick="confirmDelete('@item.Id', '@Url.Action("Delete", new { id = item.Id })')" class="btn btn-outline-danger btn-sm">Delete</a>
+
                     </div>
                 </td>
             </tr>
@@ -37,23 +38,39 @@
 @section Scripts
 {
     <script>
-        // Function to handle delete confirmation with SweetAlert
         function confirmDelete(userId, deleteUrl) {
-            Swal.fire({
-                title: "Delete Role",
-                text: "Are you sure about deleting this role ?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Delete it",
-                cancelButtonText: "Cancel",
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // If confirmed, redirect to the delete action
-                    window.location.href = deleteUrl;
-                }
-            });
+            const checkUrl = `/User/CanDeleteUser/${userId}`;
+
+            fetch(checkUrl)
+                .then(response => response.json())
+                .then(data => {
+                    
+                    if (!data.canDelete) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Deletion Not Allowed',
+                            text: data.message || 'You cannot delete this user.',
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Delete User",
+                            text: "Are you sure about deleting this user?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Delete it",
+                            cancelButtonText: "Cancel",
+                            confirmButtonColor: "#d33",
+                            cancelButtonColor: "#3085d6",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = deleteUrl;
+                            }
+                        });
+                    }
+                });
         }
+
+
     </script>
+
 }

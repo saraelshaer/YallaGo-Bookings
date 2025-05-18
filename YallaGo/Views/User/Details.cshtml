@@ -1,0 +1,51 @@
+﻿@model User
+@{
+    ViewData["Title"] = "User Details";
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">User Details</h2>
+
+    <div class="card shadow rounded">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3 fw-bold">User ID</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+
+                <dt class="col-sm-3 fw-bold">First Name</dt>
+                <dd class="col-sm-9">@Model.FirstName</dd>
+
+                <dt class="col-sm-3 fw-bold">Last Name</dt>
+                <dd class="col-sm-9">@Model.LastName</dd>
+
+                <dt class="col-sm-3 fw-bold">Email</dt>
+                <dd class="col-sm-9">@Model.Email</dd>
+
+                <dt class="col-sm-3 fw-bold">Username</dt>
+                <dd class="col-sm-9">@Model.UserName </dd>
+
+                <dt class="col-sm-3 fw-bold">Phone Number</dt>
+                <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+                <dt class="col-sm-3 fw-bold">Image</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrEmpty(Model.ImageURL))
+                    {
+                        <img src="~/usersImages/@Model.ImageURL" alt="Tour Image" class="img-thumbnail" style="max-height: 200px;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">No image available</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-center ">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn me-2" style="background-color: #163152 ;color: white;">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+

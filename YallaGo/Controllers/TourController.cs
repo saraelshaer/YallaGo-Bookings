@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YallaGo.BLL.DTOs.TourDtos;
 using YallaGo.BLL.Interfaces;
 using YallaGo.UI.Helpers;
@@ -23,7 +24,7 @@ namespace YallaGo.UI.Controllers
            var tours = await _tourService.GetAllToursAsync();
             return View(tours);
         }
-
+        [Authorize(Roles = "owner,Admin")]
         public async Task<IActionResult> AdminIndex()
         {
             ViewBag.Destinations = await _destinationService.GetAllDestinationsAsync();
