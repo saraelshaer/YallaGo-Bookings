@@ -5,7 +5,8 @@ namespace YallaGo.UI.ViewModels.Roles
     public class RoleViewModel
     {
         [Required]
-        public string RoleName { get; set; }
+        [MaxLength(100)]
+        public string Name { get; set; }
 
     }
 }

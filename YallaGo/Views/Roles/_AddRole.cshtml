@@ -1,0 +1,16 @@
+﻿@model RoleViewModel
+
+
+<form asp-action="CreateRole" method="post" class="p-3 shadow-sm rounded bg-light">
+    <div class="mb-3"> 
+        
+        <div class="input-group">
+            <input asp-for="Name" class="form-control" placeholder="Enter role name">
+            <div class="input-group-append m-2">
+
+                <button type="submit" class="btn  " style=" background-color: #163152 ;color: white;"> + Add New Role</button>
+            </div>
+        </div>
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+</form>

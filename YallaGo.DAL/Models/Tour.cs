@@ -25,10 +25,11 @@
         public Destination Destination { get; set; }
 
         // Navigation
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
-        public ICollection<OfferTour> OfferTours { get; set; }
+        public ICollection<OfferTour> OfferTours { get; set; } = new List<OfferTour>();
+        public ICollection<WishListItems> WishListItems { get; set; } = new List<WishListItems>();
     }
 }
