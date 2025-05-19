@@ -24,6 +24,6 @@ namespace YallaGo.DAL.Models
         public Tour Tour { get; set; }
 
         // Navigation
-        public Payment Payments { get; set; }
+
     }
 }

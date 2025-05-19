@@ -9,7 +9,6 @@ namespace YallaGo.DAL.Consts
     public enum BookingStatus
     {
         Pending,
-        Confirmed,
         Cancelled,
         Completed
     }

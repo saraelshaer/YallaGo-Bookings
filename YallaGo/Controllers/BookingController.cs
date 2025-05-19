@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.Authorization;
 namespace YallaGo.UI.Controllers
 {
     [Authorize]
-    public class CheckOutController : Controller
+    public class BookingController : Controller
     {
         private string PayPalClientId { get; set; } = "";
         private string PayPalSecret { get; set; } = "";
         private string PayPalUrl { get; set; } = "";
 
         private readonly IUnitOfWork _unitOfWork;
-        public CheckOutController(IConfiguration configuration, IUnitOfWork unitOfWork)
+        public BookingController(IConfiguration configuration, IUnitOfWork unitOfWork)
         {
             PayPalClientId = configuration["PayPal:ClientId"];
             PayPalSecret = configuration["PayPal:Secret"];
@@ -135,13 +135,14 @@ namespace YallaGo.UI.Controllers
                         {
 
                             var booking = new Booking();
-                            booking.NumberOfPeople = 1;
+                            booking.NumberOfPeople = int.Parse(data["numberOfPeople"].ToString());
                             booking.TotalPrice = decimal.Parse(data["amount"].ToString());
                             booking.Status = BookingStatus.Completed;
                             booking.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                             booking.TourId = int.Parse(data["tourId"].ToString());
                             booking.BookingDate = DateTime.Now;
                             await _unitOfWork.BookingRepo.AddAsync(booking);
+                            await _unitOfWork.CompleteAsync();
 
                             return new JsonResult("success");
                         }
@@ -149,9 +150,17 @@ namespace YallaGo.UI.Controllers
 
                     }
                 }
-                var errorContent = await httpResponse.Content.ReadAsStringAsync();
-                return new JsonResult($"PayPal error: {httpResponse.StatusCode} - {errorContent}");
+
             }
+            var cancelledbooking = new Booking();
+            cancelledbooking.NumberOfPeople = int.Parse(data["numberOfPeople"].ToString());
+            cancelledbooking.TotalPrice = decimal.Parse(data["amount"].ToString());
+            cancelledbooking.Status = BookingStatus.Cancelled;
+            cancelledbooking.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            cancelledbooking.TourId = int.Parse(data["tourId"].ToString());
+            cancelledbooking.BookingDate = DateTime.Now;
+            await _unitOfWork.BookingRepo.AddAsync(cancelledbooking);
+            await _unitOfWork.CompleteAsync();
 
             return new JsonResult("error");
 

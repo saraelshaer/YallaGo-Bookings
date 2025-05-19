@@ -33,7 +33,7 @@
                                         <h5>@tour.Name</h5>
                                         <p class="mb-1"><i class="far fa-clock"></i> @tour.Duration Hours </p>
                                         <strong class="d-block mt-2">@tour.Price.ToString("c") per person</strong>
-                                        <a asp-controller="Checkout" asp-action="Index" asp-route-id ="@tour.Id" class="btn book-now-btn mt-2">Book Now</a>
+                                        <a asp-controller="Booking" asp-action="Index" asp-route-id="@tour.Id" class="btn book-now-btn mt-2">Book Now</a>
                                     </div>
 
                                 </div>

@@ -49,7 +49,7 @@
 @section Scripts {
     <script>
         const price = parseFloat("@ViewBag.Price");
-        const tourId = "@ViewBag.TourId"; 
+        const tourId = "@ViewBag.TourId";
 
         const peopleInput = document.getElementById('people');
         const totalDisplay = document.getElementById('total');
@@ -67,7 +67,7 @@
             async createOrder() {
                 const total = calculateTotal();
 
-                const response = await fetch("/Checkout/CreateOrder", {
+                const response = await fetch("/Booking/CreateOrder", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ amount: total })
@@ -81,7 +81,7 @@
                 const total = calculateTotal();
                 const people = parseInt(peopleInput.value) || 1;
 
-                const response = await fetch("/Checkout/CompleteOrder", {
+                const response = await fetch("/Booking/CompleteOrder", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -95,9 +95,9 @@
                 const result = await response.json();
 
                 if (result === "success") {
-                    showNotification("success", "The order is created successfully!");
+                    showNotification("success", "The booking is created successfully!");
                 } else {
-                    showNotification("danger", "Failed to create the order!");
+                    showNotification("danger", "Failed to create the booking!");
                 }
             },
 
