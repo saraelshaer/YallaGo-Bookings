@@ -1,0 +1,124 @@
+﻿@model IEnumerable<Booking>
+
+@{
+    ViewBag.Title = "Booking History";
+}
+
+<style>
+
+
+    table th, table td {
+        vertical-align: middle;
+    }
+
+    .history-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #163152;
+        margin-bottom: 30px;
+    }
+
+    .no-orders h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .no-orders p {
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+    .shop-now-btn {
+        background-color: #163152;
+        color: #fff;
+        font-weight: 600;
+        padding: 12px 24px;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        border: none;
+        transition: 0.3s;
+    }
+
+        .shop-now-btn:hover {
+            background-color: #1e456a;
+        }
+
+    .badge {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+
+    .table td, .table th {
+        text-align: center;
+    }
+
+    .view-btn {
+        background-color: #163152;
+        color: white;
+    }
+
+        .view-btn:hover {
+            background-color: #1e456a;
+        }
+</style>
+
+<div class="container  py-5 mb-lg-2" style="min-height:80vh;">
+    <div class="container px-4 px-lg-5 mt-5">
+       
+
+        @if (!Model.Any())
+        {
+            <div class="text-center no-orders">
+                <h2>No bookings yet?</h2>
+                <p>Browse destinations and book your first trip today!</p>
+                <a asp-controller="Home" asp-action="Index" class="btn shop-now-btn">
+                    <i class="fa-solid fa-plane-departure"></i>&nbsp; Explore Now
+                </a>
+            </div>
+        }
+        else
+        {
+            <h2 class="history-title">Your Booking History</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover shadow-sm">
+                    <thead style=" background-color: #163152 ;color: white;">
+                        <tr>
+                            <th>No</th>
+                            <th>Guests</th>
+                            <th>Total Price</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.NumberOfPeople</td>
+                                <td>$@item.TotalPrice</td>
+                                <td>@item.BookingDate.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <span class="badge text-capitalize
+                                        @(item.Status == BookingStatus.Pending ? "bg-primary"
+                                        : item.Status == BookingStatus.Cancelled ? "bg-danger"
+                                        : item.Status == BookingStatus.Completed ? "bg-success"
+                                        : "bg-secondary")">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <a asp-action="View" asp-route-id="@item.Id" class="btn view-btn">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

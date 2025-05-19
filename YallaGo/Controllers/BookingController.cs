@@ -6,6 +6,7 @@ using System.Security.Claims;
 using YallaGo.DAL.Consts;
 using YallaGo.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace YallaGo.UI.Controllers
 {
@@ -177,5 +178,44 @@ namespace YallaGo.UI.Controllers
             ViewBag.ClientId = PayPalClientId;
             return View();
         }
+
+        [Authorize(Roles = "Admin,owner")]
+        public async Task<IActionResult> BookingHistory()
+        {
+            var bookings = await _unitOfWork.BookingRepo.GetAllAsync();
+            return View(bookings);
+        }
+
+        public async Task<IActionResult> History()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var bookings = await _unitOfWork.BookingRepo.GetAllAsync(b => b.UserId == userId);
+            return View(bookings);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var booking = await _unitOfWork.BookingRepo.FindAsync(b => b.Id == id, new[] {"Tour"});
+            if (booking == null)
+            {
+                return NotFound();
+            }
+            return View(booking);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var booking = await _unitOfWork.BookingRepo.GetByIdAsync(id);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.BookingRepo.HardDelete(booking);
+            await _unitOfWork.CompleteAsync();
+            return RedirectToAction("BookingHistory");
+
+        }
+
+
     }
 }

@@ -6,7 +6,17 @@
     <link rel="stylesheet" href="~/css/all.min.css">
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/profile.css">
-
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+    </style>
 </head>
 <body >
 
@@ -33,6 +43,7 @@
                             @if(User.Identity.IsAuthenticated)
                             {
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Manage">Profile</a></li>
+                               <li><a class="dropdown-item" asp-controller="Booking" asp-action="History">History</a></li>
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log Out</a></li>
                             }
                             else
@@ -49,10 +60,12 @@
             </nav>
 
 
-                @RenderBody()
+
+            @RenderBody()
 
 
-        <footer class="footer">
+
+        <footer class="footer ">
             <div class="container">
                 <p>&copy; 2025 Amazing Travel Destinations. All rights reserved. <a href="terms.html">Terms of Service</a></p>
             </div>

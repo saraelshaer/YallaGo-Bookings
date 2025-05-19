@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Booking>
+
+@{
+    ViewData["Title"] = "Bookings";
+    Layout = "_AdminLayout";
+
+
+}
+
+
+
+    <p>
+        <a asp-action="Create" class="btn btn-dark my-3">+ Create New</a>
+    </p>
+
+
+
+<table class="table table-bordered table-hover text-center align-middle table-striped shadow-sm">
+    <thead style=" background-color: #163152 ;color: white;">
+        <tr>
+            <th>Id</th>
+            <th>Number Of People</th>
+            <th>Total Price</th>
+            <th>Booking Date</th>
+            <th>Status </th>
+            <th>Actions </th>
+    
+        </tr>
+    </thead>
+    <tbody id="tourTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.NumberOfPeople</td>
+                <td>$@item.TotalPrice</td>
+                <td>@item.BookingDate</td>
+                <td>
+                    <span class="badge text-capitalize
+                                        @(item.Status == BookingStatus.Pending ? "bg-primary"
+                                        : item.Status == BookingStatus.Cancelled ? "bg-danger"
+                                        : item.Status == BookingStatus.Completed ? "bg-success"
+                                        : "bg-secondary")">
+                        @item.Status
+                    </span>
+                </td>
+ 
+                <td>
+                    <div class="btn-group" role="group">
+
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm">Details</a>
+                            <a href="javascript:void(0)" onclick="confirmDelete('@item.Id', '@Url.Action("Delete", new { id = item.Id })')" class="btn btn-outline-danger btn-sm">Delete</a>
+  
+
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts
+{
+    <script>
+        // Function to handle delete confirmation with SweetAlert
+        function confirmDelete(userId, deleteUrl) {
+            Swal.fire({
+                title: "Delete Booking",
+                text: "Are you sure about deleting this Booking ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Delete it",
+                cancelButtonText: "Cancel",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, redirect to the delete action
+                    window.location.href = deleteUrl;
+                }
+            });
+        }
+    </script>
+
+
+}

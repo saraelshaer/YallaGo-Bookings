@@ -162,9 +162,9 @@
         <a asp-action="AdminIndex" asp-controller="destination" class="@IsActive("destination", "AdminIndex")">
             <i class="fa-solid fa-map-pin"></i>&nbsp; Destination
         </a>
-        @* <a asp-action="index" asp-controller="booking" class="@IsActive("booking", "index")"> *@
-        @*     <i class="fa-solid fa-calendar-check"></i>&nbsp; Bookings *@
-        @* </a> *@
+        <a asp-action="index" asp-controller="booking" class="@IsActive("booking", "BookingHistory")">
+            <i class="fa-solid fa-calendar-check"></i>&nbsp; Bookings 
+         </a>
         <a asp-action="index" asp-controller="home" class="@IsActive("home", "index")">
             <i class="fa-solid fa-globe"></i>&nbsp; Website
         </a>
