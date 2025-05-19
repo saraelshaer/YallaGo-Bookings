@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using YallaGo.UI.ViewModels.Roles;
 
 namespace YallaGo.UI.Controllers
 {
+    [Authorize(Roles = "Admin, owner")]
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

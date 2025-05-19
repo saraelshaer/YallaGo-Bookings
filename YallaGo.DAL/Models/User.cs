@@ -12,9 +12,9 @@ namespace YallaGo.DAL.Models
         public string? ImageURL { get; set; } = "defaultUserImage.png";
 
         // Navigation Properties
-        public WishList WishList { get; set; } = new WishList();
+       
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
-        public ICollection<Review> Reviews { get; set; }= new List<Review>();
+
     }
 }

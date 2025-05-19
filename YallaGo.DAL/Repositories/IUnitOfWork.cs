@@ -9,7 +9,7 @@ namespace YallaGo.DAL.Repositories
         IGenericRepository<Booking> BookingRepo { get; }
         IGenericRepository<Destination> DestinationRepo { get; }
         IGenericRepository<Tour> TourRepo { get; }
-        
+ 
         Task<int> CompleteAsync();
     }
 }

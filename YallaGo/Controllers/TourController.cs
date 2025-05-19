@@ -7,6 +7,7 @@ using YallaGo.UI.ViewModels.Tour;
 
 namespace YallaGo.UI.Controllers
 {
+    [Authorize]
     public class TourController : Controller
     {
         private readonly ITourService _tourService;
@@ -60,6 +61,7 @@ namespace YallaGo.UI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "owner,Admin")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Destinations = await _destinationService.GetAllDestinationsAsync();
@@ -68,6 +70,7 @@ namespace YallaGo.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "owner,Admin")]
         public async Task<IActionResult> Create(CreateTourViewModel tourVM)
         {
             if (ModelState.IsValid)
@@ -97,6 +100,7 @@ namespace YallaGo.UI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "owner,Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var tour = await _tourService.GetTourByIdAsync(id);
@@ -122,6 +126,7 @@ namespace YallaGo.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "owner,Admin")]
         public async Task<IActionResult> Edit(int id, UpdateTourViewModel tourVM)
         {
             if (ModelState.IsValid)

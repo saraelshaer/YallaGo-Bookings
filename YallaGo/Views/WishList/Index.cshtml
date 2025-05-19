@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Tour>
+@{
+
+    ViewBag.Title = "My Wishlist";
+}
+
+<style>
+    .product-list .card {
+        margin-bottom: 20px;
+    }
+
+    .product-card {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border-bottom: none;
+    }
+
+        .product-card:hover {
+            filter: brightness(0.8);
+        }
+
+    .icons-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .product-card:hover .icons-overlay {
+        opacity: 1;
+    }
+
+    .wishlist-icon,
+    .view-icon {
+        font-size: 30px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: color 0.3s, transform 0.3s;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 50%;
+    }
+
+        .wishlist-icon:hover {
+            transform: scale(1.2);
+            color: #ff6161;
+        }
+
+        .wishlist-icon.fa-solid {
+            color: #ff6161;
+        }
+
+    #empty-wishlist-message {
+        text-align: center;
+        margin-top: 50px;
+    }
+</style>
+
+<div class="py-5 h-100">
+    <div class="container px-4 px-lg-5 mt-5">
+
+
+        @if (Model.Any())
+        {
+            <div id="wishlist-container" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                @foreach (var tour in Model)
+                {
+                    <div id="wishlist-item-@tour.Id" class="col mb-md-5">
+                        <div class="card h-100 w-100 product-card">
+                            <div class="icons-overlay">
+                                <a href="javascript:void(0);" class="toggle-wishlist" data-tour-id="@tour.Id">
+                                    <i class="fa-heart fa-regular wishlist-icon" id="wishlist-icon-@tour.Id"></i>
+                                </a>
+
+
+                            </div>
+
+                            <img class="card-img-top" src="~/images/tours/@tour.ImageURL" alt="@tour.Name" style="height:250px;" />
+
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h4 class="fw-bolder">@tour.Name</h4>
+                                    <p class="text-muted">@tour.Description?.Substring(0, Math.Min(tour.Description.Length, 80))...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div id="empty-wishlist-message" class="container">
+                <h2>Your Wishlist is Empty</h2>
+                <p style="font-size:22px;">Start exploring tours and add your favorites to your wishlist!</p>
+
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const wishlistIcons = document.querySelectorAll(".toggle-wishlist");
+
+            const res = await fetch("/Wishlist/GetUserWishlistTourIds");
+            const wishlistTourIds = await res.json();
+
+            wishlistIcons.forEach(btn => {
+                const tourId = parseInt(btn.dataset.tourId);
+                const icon = document.getElementById("wishlist-icon-" + tourId);
+                if (wishlistTourIds.includes(tourId)) {
+                    icon.classList.remove("fa-regular");
+                    icon.classList.add("fa-solid");
+                }
+            });
+
+            wishlistIcons.forEach(btn => {
+                btn.addEventListener("click", async function () {
+                    const tourId = parseInt(btn.dataset.tourId);
+                    const icon = document.getElementById("wishlist-icon-" + tourId);
+
+                    const response = await fetch("/Wishlist/Toggle", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        body: JSON.stringify({ tourId })
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        icon.classList.toggle("fa-solid", result.added);
+                        icon.classList.toggle("fa-regular", !result.added);
+
+                        if (!result.added) {
+                           
+                            document.getElementById("wishlist-item-" + tourId).remove();
+                            if (document.querySelectorAll(".product-card").length === 0) {
+                                location.reload(); 
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

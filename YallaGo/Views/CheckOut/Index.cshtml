@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Payment ";
+}
+
+<!-- PayPal SDK with dynamic ClientId -->
+<script src="https://www.paypal.com/sdk/js?client-id=@(ViewBag.ClientId)&currency=USD"></script>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .booking-card {
+        max-width: 600px;
+        margin: 100px auto 50px auto;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+</style>
+
+<div class="container">
+    <div class="booking-card text-center">
+        <h2 class="mb-4">Book Your Tour</h2>
+
+        <div class="mb-3 text-start">
+            <label for="people" class="form-label">Number of People</label>
+            <input type="number" id="people" class="form-control" min="1" value="1">
+        </div>
+
+        <div class="mb-3 text-start">
+            <label for="price" class="form-label">Price per Person</label>
+            <input type="text" id="price" class="form-control" value="@ViewBag.Price" disabled>
+        </div>
+
+        <div class="mb-3 text-start">
+            <label class="form-label">Total Price</label>
+            <div class="form-control" id="total">$@ViewBag.Price</div>
+        </div>
+
+        <div id="notification-container" class="mb-3"></div>
+
+        <div id="paypal-button-container"></div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const price = parseFloat("@ViewBag.Price");
+        const tourId = "@ViewBag.TourId"; 
+
+        const peopleInput = document.getElementById('people');
+        const totalDisplay = document.getElementById('total');
+
+        function calculateTotal() {
+            const people = parseInt(peopleInput.value) || 1;
+            const total = (people * price).toFixed(2);
+            totalDisplay.textContent = `$${total}`;
+            return total;
+        }
+
+        peopleInput.addEventListener('input', calculateTotal);
+
+        paypal.Buttons({
+            async createOrder() {
+                const total = calculateTotal();
+
+                const response = await fetch("/Checkout/CreateOrder", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ amount: total })
+                });
+
+                const order = await response.json();
+                return order.id;
+            },
+
+            async onApprove(data) {
+                const total = calculateTotal();
+                const people = parseInt(peopleInput.value) || 1;
+
+                const response = await fetch("/Checkout/CompleteOrder", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        orderID: data.orderID,
+                        amount: total,
+                        numberOfPeople: people,
+                        tourId: tourId
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result === "success") {
+                    showNotification("success", "The order is created successfully!");
+                } else {
+                    showNotification("danger", "Failed to create the order!");
+                }
+            },
+
+            onCancel() {
+                showNotification("danger", "Payment Canceled!");
+            },
+
+            onError(err) {
+                showNotification("danger", "An error occurred! Please retry later.");
+            }
+        }).render('#paypal-button-container');
+
+        function showNotification(type, message) {
+            document.getElementById("notification-container").innerHTML = `
+                <div class='alert alert-${type} alert-dismissible fade show' role='alert'>
+                    <strong>${message}</strong>
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                </div>
+            `;
+        }
+    </script>
+}

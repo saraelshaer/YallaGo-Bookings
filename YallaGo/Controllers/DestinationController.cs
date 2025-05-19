@@ -7,6 +7,7 @@ using YallaGo.UI.ViewModels.Destination;
 
 namespace YallaGo.UI.Controllers
 {
+    [Authorize]
     public class DestinationController : Controller
     {
         private readonly IDestinationService _destinationService;
@@ -17,6 +18,7 @@ namespace YallaGo.UI.Controllers
             _destinationService = destinationService;
             _webHostEnvironment = webHostEnvironment;
         }
+        [Authorize(Roles = "user,Admin,owner")]
         public async Task<IActionResult> Index()
         {
             var destinations = await _destinationService.GetAllDestinationsAsync();
@@ -40,6 +42,7 @@ namespace YallaGo.UI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "owner,Admin")]
         public IActionResult Create()
         {
             return View();
@@ -47,6 +50,7 @@ namespace YallaGo.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "owner,Admin")]
         public async Task<IActionResult> Create(CreateDestinationViewModel destinationVM)
         {
             if (ModelState.IsValid)
@@ -69,6 +73,7 @@ namespace YallaGo.UI.Controllers
             return View(destinationVM);
 
         }
+        [Authorize(Roles = "owner,Admin")]
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -88,6 +93,7 @@ namespace YallaGo.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "owner,Admin")]
         public async Task<IActionResult> Edit(int id, UpdatedestinationVM destinationVM)
         {
             if (ModelState.IsValid)

@@ -33,11 +33,9 @@
                                         <h5>@tour.Name</h5>
                                         <p class="mb-1"><i class="far fa-clock"></i> @tour.Duration Hours </p>
                                         <strong class="d-block mt-2">@tour.Price.ToString("c") per person</strong>
-                                        <button class="book-now-btn mt-2">Book Now</button>
+                                        <a asp-controller="Checkout" asp-action="Index" asp-route-id ="@tour.Id" class="btn book-now-btn mt-2">Book Now</a>
                                     </div>
-                                    <button class="favorite-btn">
-                                        <i class="far fa-heart"></i>
-                                    </button>
+
                                 </div>
                             }
                         </div>
@@ -55,6 +53,44 @@
     <!-- Hidden Close Button for Modals -->
     <input type="radio" name="modal" id="modal-close" class="activities-trigger" checked>
 </section>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const wishlistBtns = document.querySelectorAll(".wishlist-btn");
+
+            // Fetch existing wishlist tour IDs
+            const res = await fetch("/Wishlist/GetUserWishlistTourIds");
+            const wishlistTourIds = await res.json();
+
+            // Initialize icons (red if already in wishlist)
+            wishlistBtns.forEach(btn => {
+                const tourId = parseInt(btn.dataset.id);
+                if (wishlistTourIds.includes(tourId)) {
+                    btn.querySelector("i").classList.add("text-danger");
+                }
+            });
+
+            // Toggle logic
+            wishlistBtns.forEach(btn => {
+                btn.addEventListener("click", async function () {
+                    const tourId = btn.dataset.id;
+                    const icon = btn.querySelector("i");
+
+                    const response = await fetch("/Wishlist/Toggle", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ tourId: parseInt(tourId) })
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        icon.classList.toggle("text-danger", result.added);
+                    }
+                });
+            });
+        });
+    </script>
+}
 
 
 
