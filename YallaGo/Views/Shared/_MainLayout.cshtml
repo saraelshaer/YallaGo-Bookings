@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="~/css/profile.css">
     <style>
         html, body {
-            height: 100%;
-            margin: 0;
+        height: 100%;
+        margin: 0;
         }
         body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
         }
     </style>
 </head>
@@ -33,17 +33,25 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
 
                     </ul>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user fs-5"></i>
-                        </button>
+                </div>
+                <div class="dropdown position-relative" style="z-index: 5000;">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user fs-5"></i>
+                    </button>
 
-                        <ul class="dropdown-menu">
-                            @if(User.Identity.IsAuthenticated)
+                    <ul class="dropdown-menu" style="z-index: 5000;">
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Manage">Profile</a></li>
+                            @if (User.IsInRole("Admin"))
                             {
-                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Manage">Profile</a></li>
-                               <li><a class="dropdown-item" asp-controller="Booking" asp-action="History">History</a></li>
+                                <li><a class="dropdown-item" asp-controller="home" asp-action="dashboard">Admin Panel</a></li>
+                            }
+                            else
+                            {
+                                <li><a class="dropdown-item" asp-controller="Booking" asp-action="History">History</a></li>
+                            }
+
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log Out</a></li>
                             }
                             else

@@ -9,11 +9,6 @@
 
 
 
-    <p>
-        <a asp-action="Create" class="btn btn-dark my-3">+ Create New</a>
-    </p>
-
-
 
 <table class="table table-bordered table-hover text-center align-middle table-striped shadow-sm">
     <thead style=" background-color: #163152 ;color: white;">
@@ -48,7 +43,7 @@
                 <td>
                     <div class="btn-group" role="group">
 
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Edit</a>
+                          
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm">Details</a>
                             <a href="javascript:void(0)" onclick="confirmDelete('@item.Id', '@Url.Action("Delete", new { id = item.Id })')" class="btn btn-outline-danger btn-sm">Delete</a>
   

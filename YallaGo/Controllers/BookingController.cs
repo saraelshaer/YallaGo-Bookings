@@ -195,7 +195,7 @@ namespace YallaGo.UI.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var booking = await _unitOfWork.BookingRepo.FindAsync(b => b.Id == id, new[] {"Tour"});
+            var booking = await _unitOfWork.BookingRepo.FindAsync(b => b.Id == id, new[] { "Tour.Destination","User" });
             if (booking == null)
             {
                 return NotFound();
