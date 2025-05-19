@@ -1,4 +1,5 @@
 ﻿using YallaGo.BLL.DTOs.DestinationDtos;
+using YallaGo.BLL.DTOs.TourDtos;
 using YallaGo.BLL.Interfaces;
 using YallaGo.DAL.Consts;
 using YallaGo.DAL.Models;
@@ -40,14 +41,25 @@ namespace YallaGo.BLL.Services
 
         public async Task<IEnumerable<ReadDestinationDto>> GetAllDestinationsAsync()
         {
-            var destinations = await _unitOfWork.DestinationRepo.GetAllAsync(orderBy: d => d.Name, orderByDirection: OrderByDirection.Ascending);
+            var destinations = await _unitOfWork.DestinationRepo.GetAllAsync(includes: new[] {"Tours"}, orderBy: d => d.Name, orderByDirection: OrderByDirection.Ascending);
             return destinations.Select(d => new ReadDestinationDto
             {
                 Id = d.Id,
                 Name = d.Name,
                 ImageUrl = d.ImagePath,
-                Country = d.Country
+                Country = d.Country,
+                Tours = d.Tours.Select(t => new ReadTourDto
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Description = t.Description,
+                    Price = t.Price,
+                    Duration = t.Duration,
+                    ImageURL = t.ImageURL
+                }).ToList()
             }).ToList();
+
+          
         }
 
         public async Task<ReadDestinationDto> GetDestinationByIdAsync(int id)

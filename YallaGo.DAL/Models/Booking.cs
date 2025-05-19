@@ -1,4 +1,6 @@
-﻿namespace YallaGo.DAL.Models
+﻿using YallaGo.DAL.Consts;
+
+namespace YallaGo.DAL.Models
 {
     public class Booking
     {
@@ -10,7 +12,7 @@
 
         public DateTime BookingDate { get; set; }
 
-        public string Status { get; set; }
+        public BookingStatus Status { get; set; }
 
         // Foreign Keys
         public string UserId { get; set; }
@@ -22,6 +24,6 @@
         public Tour Tour { get; set; }
 
         // Navigation
-        public ICollection<Payment> Payments { get; set; }
+        public Payment Payments { get; set; }
     }
 }

@@ -13,7 +13,7 @@
 }
 
 .home-layer {
-    background-color: rgb(0,0,0,0.2);
+    background-color: rgb(0,0,0,0.1);
 }
 
 .caption-text {
@@ -209,7 +209,14 @@
     color: #163152;
     font-weight: 700;
 }
-
+.parent {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 /* Destination Cards */
 .destination-card {
     position: relative;
@@ -347,10 +354,12 @@
     font-weight: 600;
     transition: all 0.3s ease;
     cursor: pointer;
+    text-decoration:none;
 }
 
     .book-now-btn:hover {
         background-color: #0d1f32;
+        color: white;
     }
 
 

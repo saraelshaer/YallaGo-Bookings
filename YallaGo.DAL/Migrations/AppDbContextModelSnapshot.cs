@@ -164,14 +164,18 @@ namespace YallaGo.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("BookingDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("NumberOfPeople")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Pending");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -217,43 +221,6 @@ namespace YallaGo.DAL.Migrations
                     b.ToTable("Destinations");
                 });
 
-            modelBuilder.Entity("YallaGo.DAL.Models.Offer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("DiscountPercentage")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Offers");
-                });
-
-            modelBuilder.Entity("YallaGo.DAL.Models.OfferTour", b =>
-                {
-                    b.Property<int>("TourId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OfferId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TourId", "OfferId");
-
-                    b.HasIndex("OfferId");
-
-                    b.ToTable("OfferTours");
-                });
-
             modelBuilder.Entity("YallaGo.DAL.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -277,43 +244,10 @@ namespace YallaGo.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingId");
+                    b.HasIndex("BookingId")
+                        .IsUnique();
 
                     b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("YallaGo.DAL.Models.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReviewDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TourId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TourId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("YallaGo.DAL.Models.Tour", b =>
@@ -446,49 +380,6 @@ namespace YallaGo.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("YallaGo.DAL.Models.WishList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("wishLists");
-                });
-
-            modelBuilder.Entity("YallaGo.DAL.Models.WishListItems", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("TourId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WishListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TourId");
-
-                    b.HasIndex("WishListId");
-
-                    b.ToTable("wishListItems");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -559,53 +450,15 @@ namespace YallaGo.DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("YallaGo.DAL.Models.OfferTour", b =>
-                {
-                    b.HasOne("YallaGo.DAL.Models.Offer", "Offer")
-                        .WithMany("OfferTours")
-                        .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YallaGo.DAL.Models.Tour", "Tour")
-                        .WithMany("OfferTours")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Offer");
-
-                    b.Navigation("Tour");
-                });
-
             modelBuilder.Entity("YallaGo.DAL.Models.Payment", b =>
                 {
                     b.HasOne("YallaGo.DAL.Models.Booking", "Booking")
-                        .WithMany("Payments")
-                        .HasForeignKey("BookingId")
+                        .WithOne("Payments")
+                        .HasForeignKey("YallaGo.DAL.Models.Payment", "BookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Booking");
-                });
-
-            modelBuilder.Entity("YallaGo.DAL.Models.Review", b =>
-                {
-                    b.HasOne("YallaGo.DAL.Models.Tour", "Tour")
-                        .WithMany("Reviews")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YallaGo.DAL.Models.User", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("YallaGo.DAL.Models.Tour", b =>
@@ -619,39 +472,10 @@ namespace YallaGo.DAL.Migrations
                     b.Navigation("Destination");
                 });
 
-            modelBuilder.Entity("YallaGo.DAL.Models.WishList", b =>
-                {
-                    b.HasOne("YallaGo.DAL.Models.User", "User")
-                        .WithOne("WishList")
-                        .HasForeignKey("YallaGo.DAL.Models.WishList", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("YallaGo.DAL.Models.WishListItems", b =>
-                {
-                    b.HasOne("YallaGo.DAL.Models.Tour", "Tour")
-                        .WithMany("WishListItems")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YallaGo.DAL.Models.WishList", "WishList")
-                        .WithMany("WishListItems")
-                        .HasForeignKey("WishListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
-
-                    b.Navigation("WishList");
-                });
-
             modelBuilder.Entity("YallaGo.DAL.Models.Booking", b =>
                 {
-                    b.Navigation("Payments");
+                    b.Navigation("Payments")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("YallaGo.DAL.Models.Destination", b =>
@@ -659,35 +483,14 @@ namespace YallaGo.DAL.Migrations
                     b.Navigation("Tours");
                 });
 
-            modelBuilder.Entity("YallaGo.DAL.Models.Offer", b =>
-                {
-                    b.Navigation("OfferTours");
-                });
-
             modelBuilder.Entity("YallaGo.DAL.Models.Tour", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("OfferTours");
-
-                    b.Navigation("Reviews");
-
-                    b.Navigation("WishListItems");
                 });
 
             modelBuilder.Entity("YallaGo.DAL.Models.User", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("Reviews");
-
-                    b.Navigation("WishList")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("YallaGo.DAL.Models.WishList", b =>
-                {
-                    b.Navigation("WishListItems");
                 });
 #pragma warning restore 612, 618
         }

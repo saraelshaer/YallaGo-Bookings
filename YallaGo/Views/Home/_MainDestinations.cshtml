@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ReadDestinationDto>
+
+<section class="destinations">
+    <div class="container">
+        <h2 class="main-title text-center">Main Destinations </h2>
+
+        <div class="parent row  justify-content-evenly ">
+            <!-- Dubai -->
+            @foreach (var destination in Model)
+            {
+                var modalId = "activities-" + destination.Id;
+                var closeId = "close-" + destination.Id;
+                <div class="col-lg-3 col-md-6">
+                    <div class="destination-card">
+                        <label for="@modalId">
+                            <img src="~/images/Destinations/@destination.ImageUrl" alt="@destination.Name">
+                            <div class="destination-name">@destination.Name</div>
+                        </label>
+                    </div>
+
+                    <input type="radio" name="modal" id="@modalId" class="activities-trigger">
+                    <div class="activities-modal">
+                        <div class="activities-content">
+                            <h4 class="modal-title fw-bold">Top Activities in @destination.Name</h4>
+                            <label class="close-modal" for="@closeId">
+                                <i class="fas fa-times"></i>
+                            </label>
+                            @foreach (var tour in destination.Tours)
+                            {
+                                <div class="activity-card">
+                                    <img src="~/images/tours/@tour.ImageURL" alt="@tour.Name" class="activity-image">
+                                    <div class="activity-details">
+                                        <h5>@tour.Name</h5>
+                                        <p class="mb-1"><i class="far fa-clock"></i> @tour.Duration Hours </p>
+                                        <strong class="d-block mt-2">@tour.Price.ToString("c") per person</strong>
+                                        <a asp-controller="Checkout" asp-action="Index" asp-route-id ="@tour.Id" class="btn book-now-btn mt-2">Book Now</a>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Hidden close button per modal -->
+                    <input type="radio" name="modal" id="@closeId" class="activities-trigger" checked>
+                </div>
+            }
+
+ 
+
+        </div>
+    </div>
+    <!-- Hidden Close Button for Modals -->
+    <input type="radio" name="modal" id="modal-close" class="activities-trigger" checked>
+</section>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const wishlistBtns = document.querySelectorAll(".wishlist-btn");
+
+            // Fetch existing wishlist tour IDs
+            const res = await fetch("/Wishlist/GetUserWishlistTourIds");
+            const wishlistTourIds = await res.json();
+
+            // Initialize icons (red if already in wishlist)
+            wishlistBtns.forEach(btn => {
+                const tourId = parseInt(btn.dataset.id);
+                if (wishlistTourIds.includes(tourId)) {
+                    btn.querySelector("i").classList.add("text-danger");
+                }
+            });
+
+            // Toggle logic
+            wishlistBtns.forEach(btn => {
+                btn.addEventListener("click", async function () {
+                    const tourId = btn.dataset.id;
+                    const icon = btn.querySelector("i");
+
+                    const response = await fetch("/Wishlist/Toggle", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ tourId: parseInt(tourId) })
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        icon.classList.toggle("text-danger", result.added);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
+

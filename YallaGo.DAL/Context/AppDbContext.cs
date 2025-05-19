@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Reflection.Emit;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using YallaGo.DAL.Consts;
 using YallaGo.DAL.Models;
 namespace YallaGo.DAL
 {
@@ -12,19 +11,15 @@ namespace YallaGo.DAL
         public DbSet<User> Users { get; set; }
         public DbSet<Tour> Tours { get; set; }
         public DbSet<Destination> Destinations { get; set; }
-        public DbSet<Review> Reviews { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<Offer> Offers { get; set; }
-        public DbSet<OfferTour> OfferTours { get; set; }
-        public DbSet<WishList> wishLists { get; set; }
-        public DbSet<WishListItems> wishListItems { get; set; } 
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OfferTour>()
-                .HasKey(ot => new { ot.TourId, ot.OfferId });
+
+
 
             modelBuilder.Entity<User>(cfg =>
             {
@@ -43,14 +38,19 @@ namespace YallaGo.DAL
                     .HasDefaultValueSql("GETDATE()");
             });
 
+            modelBuilder.Entity<Booking>(cfg =>
+            {
+                cfg.Property(b => b.BookingDate)
+                    .HasDefaultValueSql("GETDATE()");
+
+                cfg.Property(b => b.Status)
+                    .HasConversion<string>()
+                    .HasDefaultValue(BookingStatus.Pending);
+            });
+
             base.OnModelCreating(modelBuilder);
-
-
         }
-
-
     }
-
 }
 
 

@@ -32,6 +32,7 @@ namespace YallaGo
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IDestinationService, DestinationService>();
             builder.Services.AddScoped<ITourService, TourService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

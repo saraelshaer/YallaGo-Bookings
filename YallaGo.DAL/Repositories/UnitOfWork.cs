@@ -21,6 +21,7 @@ namespace YallaGo.DAL.Repositories
             DestinationRepo = new GenericRepository<Destination>(_context);
             TourRepo = new GenericRepository<Tour>(_context);
 
+
         }
 
 

@@ -19,9 +19,7 @@ namespace YallaGo.DAL.Repositories
          Expression<Func<T, bool>> criteria = null,
          string[] includes = null,
          Expression<Func<T, object>> orderBy = null,
-         OrderByDirection orderByDirection = OrderByDirection.Descending,
-         int pageNumber = 1,
-         int pageSize = 10)
+         OrderByDirection orderByDirection = OrderByDirection.Descending)
         {
             IQueryable<T> query = _dbSet;
             if (criteria != null)
@@ -41,7 +39,7 @@ namespace YallaGo.DAL.Repositories
                     : query.OrderByDescending(orderBy);
             }
 
-            return await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await query.ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)
@@ -90,16 +88,6 @@ namespace YallaGo.DAL.Repositories
                 }
             }
             return await query.SingleOrDefaultAsync(criteria);
-        }
-
-        public async Task<IEnumerable<U>> SelectAsync<U>(Expression<Func<T, U>> expression , Expression<Func<T, bool>> criteria = null)
-        {
-            IQueryable<T> query = _dbSet;
-
-            if (criteria != null)
-                query = query.Where(criteria);
-
-            return await query.Select(expression).ToListAsync();
         }
 
         public async Task<int> CountAsync(Expression<Func<T, bool>> criteria = null)

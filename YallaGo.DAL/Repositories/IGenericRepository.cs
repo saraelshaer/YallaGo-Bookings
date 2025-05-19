@@ -10,10 +10,8 @@ namespace YallaGo.DAL.Repositories
             Expression<Func<T, bool>> criteria = null,
             string[] includes = null,
             Expression<Func<T, object>> orderBy = null,
-            OrderByDirection orderByDirection = OrderByDirection.Descending,
-            int pageNumber = 1,
-            int pageSize = 10
-        );
+            OrderByDirection orderByDirection = OrderByDirection.Descending
+         );
 
         Task<T> GetByIdAsync(int id);
         Task AddAsync(T entity);
@@ -23,7 +21,6 @@ namespace YallaGo.DAL.Repositories
         void SoftDelete(T entity);
         Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate);
         Task<T> FindAsync(Expression<Func<T, bool>> criteria, string[] includes = null);
-        Task<IEnumerable<U>> SelectAsync<U>(Expression<Func<T, U>> expression, Expression<Func<T, bool>> criteria = null);
         Task<bool> Exists(Expression<Func<T, bool>> criteria);
         Task<int> CountAsync(Expression<Func<T, bool>> criteria = null);
     }

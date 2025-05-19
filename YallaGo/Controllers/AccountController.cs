@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
@@ -141,6 +142,7 @@ namespace YallaGo.UI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Manage()
         {
             
@@ -161,6 +163,7 @@ namespace YallaGo.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Manage(UserProfileViewModel model)
         {
             if (ModelState.IsValid) 
